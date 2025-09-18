@@ -1,6 +1,5 @@
 
 import 'package:library_component/setting_property/setting_property.dart';
-import 'package:library_component/accordion/widget/custom_switch.dart';
 import 'package:library_component/setting_property/widget/setting_row.dart';
 
 class SettingPage extends StatefulWidget {
