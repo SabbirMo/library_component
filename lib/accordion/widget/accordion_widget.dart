@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:library_component/accordion/models/accordion_config.dart';
-import 'package:library_component/accordion/models/accordion_theme.dart';
+
+import 'package:library_component/accordion/accordion.dart';
 
 class AccordionWidget extends StatefulWidget {
   const AccordionWidget({super.key, required this.config,  this.theme});
@@ -18,7 +16,10 @@ class AccordionWidget extends StatefulWidget {
     Color? iconColor,
     IconData? iconData, 
     String? svgPath, 
-    bool isExpanded = false, 
+    bool isExpanded = false,
+    bool isSwitch = true,
+    bool switchValue = false, 
+    ValueChanged<bool>? onSwitchChanged, 
     ValueChanged<bool>? onExpressionChanged,
     AccordionTheme? theme,
   })
@@ -32,7 +33,10 @@ class AccordionWidget extends StatefulWidget {
         svgPath: svgPath, 
         iconSize: iconSize,
         iconColor: iconColor,
-        isExpanded: isExpanded, 
+        isExpanded: isExpanded,
+        isSwitch: isSwitch,
+        switchValue: switchValue,
+        onSwitchChanged: onSwitchChanged,
         onExpressionChanged: onExpressionChanged,
         ),
         theme: theme,
@@ -106,8 +110,8 @@ class _AccordionWidgetState extends State<AccordionWidget> with SingleTickerProv
 
     final titleStyle = _effectiveTheme.textStyle?.copyWith(
       color: _effectiveTheme.titleColor ?? Color(0xff895737),
-      fontWeight: FontWeight.w600,
       fontSize: 16,
+      fontWeight: FontWeight.bold,
       );
     
 
@@ -124,22 +128,7 @@ class _AccordionWidgetState extends State<AccordionWidget> with SingleTickerProv
             borderRadius: _effectiveTheme.borderRadius,
             highlightColor: Colors.transparent, 
             splashColor: _effectiveTheme.enableRipple ? _effectiveTheme.splashColor : Colors.transparent,
-            child: Container(
-              padding: _effectiveTheme.padding, 
-              height: _effectiveTheme.containerHeight, 
-              child: Row(
-                children: [
-                  if(widget.config.iconData != null || (widget.config.svgPath != null && widget.config.svgPath !.isNotEmpty)) ... [
-                    buildLoadingIcon(_effectiveTheme.iconSize, _effectiveTheme.iconColor ?? Colors.brown),
-                    
-                    SizedBox(width: widget.theme?.iconTextGap ?? 12),
-                    Expanded(child: Text(widget.config.title, style: titleStyle, maxLines: 1, overflow: TextOverflow.ellipsis,),),
-          
-                    RotationTransition(turns: animation, child: Icon(Icons.expand_more, size: _effectiveTheme.iconSize, color: _effectiveTheme.iconColor ?? Colors.brown,),)
-                  ]
-                ],
-              ),
-            ),
+            child: _buildAccordionContent(_effectiveTheme, titleStyle),
           ) : _buildContent(_effectiveTheme, titleStyle),
         ),
        if (widget.config.isSwitch)
@@ -155,6 +144,32 @@ class _AccordionWidgetState extends State<AccordionWidget> with SingleTickerProv
     );
   }
 
+   Widget _buildAccordionContent(AccordionTheme _effectiveTheme, TextStyle? titleStyle) {
+    return Container(
+      padding: _effectiveTheme.padding, 
+      height: _effectiveTheme.containerHeight, 
+      child: Row(
+        children: [
+          if(widget.config.iconData != null || (widget.config.svgPath != null && widget.config.svgPath !.isNotEmpty)) ... [
+            buildLoadingIcon(_effectiveTheme.iconSize, _effectiveTheme.iconColor ?? Colors.brown),
+            
+            SizedBox(width: widget.theme?.iconTextGap ?? 12),
+            Expanded(child: Text(widget.config.title, style: titleStyle, maxLines: 1, overflow: TextOverflow.ellipsis,),),
+    
+            RotationTransition(
+              turns: animation, 
+              child: Icon(
+                Icons.expand_more, 
+                size: _effectiveTheme.iconSize, 
+                color: _effectiveTheme.iconColor ?? Colors.brown,
+              ),
+            ),
+          ]
+        ],
+      ),
+    );
+  }
+
    Widget _buildContent(AccordionTheme _effectiveTheme, TextStyle? titleStyle) {
     return Container(
       padding: _effectiveTheme.padding, 
@@ -167,15 +182,12 @@ class _AccordionWidgetState extends State<AccordionWidget> with SingleTickerProv
             SizedBox(width: widget.theme?.iconTextGap ?? 12),
             Expanded(child: Text(widget.config.title, style: titleStyle, maxLines: 1, overflow: TextOverflow.ellipsis,),),
     
-            if (widget.config.isSwitch)
-              RotationTransition(
-                turns: animation, 
-                child: Icon(
-                  Icons.expand_more, 
-                  size: _effectiveTheme.iconSize, 
-                  color: _effectiveTheme.iconColor ?? Colors.brown,
-                ),
-              ),
+            CustomSwitch(
+              value: widget.config.switchValue,
+              onChanged: widget.config.onSwitchChanged,
+              activeColor: _effectiveTheme.iconColor ?? Color(0xff895737),
+              inactiveColor: Color(0xffF2EAE0),
+            ),
           ]
         ],
       ),

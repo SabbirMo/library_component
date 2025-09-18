@@ -9,6 +9,8 @@ class AccordionConfig {
   final Widget? context;
   final bool isSwitch;
   final bool isExpanded;
+  final bool switchValue;
+  final ValueChanged<bool>? onSwitchChanged; 
   final ValueChanged<bool>? onExpressionChanged;
 
   AccordionConfig({
@@ -18,8 +20,10 @@ class AccordionConfig {
     this.iconColor,
     this.context,
     this.iconSize = 16,
-    this.isSwitch = false,
+    this.isSwitch = true, 
     this.isExpanded = false,
+    this.switchValue = false, 
+    this.onSwitchChanged, 
     this.onExpressionChanged
   });
 
@@ -33,6 +37,8 @@ class AccordionConfig {
     Color? iconColor,
     bool? isSwitch,
     bool? isExpanded,
+    bool? switchValue,
+    ValueChanged<bool>? onSwitchChanged,
     ValueChanged<bool>? onExpressionChanged
   })
     => AccordionConfig(
@@ -43,6 +49,9 @@ class AccordionConfig {
            context: context ?? this.context,
            isSwitch: isSwitch ?? this.isSwitch,
            iconSize: iconSize ?? this.iconSize,
+           isExpanded: isExpanded ?? this.isExpanded,
+           switchValue: switchValue ?? this.switchValue,
+           onSwitchChanged: onSwitchChanged ?? this.onSwitchChanged,
            onExpressionChanged: onExpressionChanged ?? this.onExpressionChanged);
  
 }
