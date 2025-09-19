@@ -1,4 +1,3 @@
-
 import 'package:library_component/setting_property/setting_property.dart';
 import 'package:library_component/setting_property/widget/setting_row.dart';
 
@@ -11,14 +10,14 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   String? selectedLanguage = "English";
-  bool appearanceSettingsEnabled = false; 
+  bool appearanceSettingsEnabled = false;
   bool showArabic = false;
-  
+
   // Appearance Settings variables
   bool _tajweedColorEnabled = false;
   bool _keepScreenOnEnabled = false;
   String _selectedTheme = 'System';
-  
+
   // View Settings variables
   bool _showLineNumbers = false;
   bool _fullScreenMode = false;
@@ -26,23 +25,31 @@ class _SettingPageState extends State<SettingPage> {
   bool _dailyNotification = false;
   TimeOfDay _selectedTime = TimeOfDay(hour: 17, minute: 0); // Default 5:00 PM
 
-    // ড্রপডাউনের জন্য নির্বাচিত মানগুলো সংরক্ষণের জন্য ভেরিয়েবল
+  // ড্রপডাউনের জন্য নির্বাচিত মানগুলো সংরক্ষণের জন্য ভেরিয়েবল
   String? _selectedAppLanguage = 'English';
   String? _selectedTranslation = 'Sahi International';
   String? _selectedWordLanguage = 'English';
   String? _selectedAudio = 'Abdul Basit Mujawwad';
   String? _setectedScript = "Uthma";
   String? _setectedArabicFont = "KFGQ Hafs";
-  
+
   // ফন্ট সাইজের জন্য ভ্যারিয়েবল
   double _arabicFontSize = 18.0;
   double _translationFontSize = 14.0;
 
   // ড্রপডাউনের আইটেমগুলোর তালিকা
   final List<String> _appLanguages = ['English', 'Bengali', 'Arabic'];
-  final List<String> _translations = ['Sahi International', 'Pickthall', 'Yusuf Ali'];
+  final List<String> _translations = [
+    'Sahi International',
+    'Pickthall',
+    'Yusuf Ali',
+  ];
   final List<String> _wordLanguages = ['English', 'Bengali', 'Urdu'];
-  final List<String> _audioReciters = ['Abdul Basit Mujawwad', 'Mishary Rashid Alafasy', 'Saad Al Ghamdi'];
+  final List<String> _audioReciters = [
+    'Abdul Basit Mujawwad',
+    'Mishary Rashid Alafasy',
+    'Saad Al Ghamdi',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -51,84 +58,76 @@ class _SettingPageState extends State<SettingPage> {
       appBar: AppBar(
         title: Text("Settings"),
         backgroundColor: Color(0xfffbecd6),
-        leading: Icon(Icons.arrow_back_ios,  size: 18, color: Color(0xff895737)),
+        leading: Icon(Icons.arrow_back_ios, size: 18, color: Color(0xff895737)),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             AccordionWidget.simple(
-              title: "Genaral Settings", 
+              title: "Genaral Settings",
               svgPath: 'assets/svg/setting.svg',
-              isSwitch: true, 
-              theme: AccordionTheme(
-                enableRipple: false,
-              ),
-              
+              isSwitch: true,
+              theme: AccordionTheme(enableRipple: false),
+
               context: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
-            children: [
-              SettingDropdown.simple(
-                label: 'App Language',
-                value: _selectedAppLanguage,
-                items: _appLanguages,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedAppLanguage = newValue;
-                  });
-                },
-               
-                // কোন theme specify করি নি - default style ব্যবহার হবে
+                  children: [
+                    SettingDropdown.simple(
+                      label: 'App Language',
+                      value: _selectedAppLanguage,
+                      items: _appLanguages,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedAppLanguage = newValue;
+                        });
+                      },
+
+                      // কোন theme specify করি নি - default style ব্যবহার হবে
+                    ),
+
+                    SettingDropdown.simple(
+                      label: 'Translation',
+                      value: _selectedTranslation,
+                      items: _translations,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedTranslation = newValue;
+                        });
+                      },
+                    ),
+
+                    SettingDropdown.simple(
+                      label: 'Word by Word Language',
+                      value: _selectedWordLanguage,
+                      items: _wordLanguages,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedWordLanguage = newValue;
+                        });
+                      },
+                    ),
+
+                    SettingDropdown.simple(
+                      label: 'Default Audio',
+                      value: _selectedAudio,
+                      items: _audioReciters,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _selectedAudio = newValue;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
-              
-              SettingDropdown.simple(
-                label: 'Translation',
-                value: _selectedTranslation,
-                items: _translations,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedTranslation = newValue;
-                  });
-                },
-               
-              ),
-              
-              SettingDropdown.simple(
-                label: 'Word by Word Language',
-                value: _selectedWordLanguage,
-                items: _wordLanguages,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedWordLanguage = newValue;
-                  });
-                },
-                
-              ),
-              
-              SettingDropdown.simple(
-                label: 'Default Audio',
-                value: _selectedAudio,
-                items: _audioReciters,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedAudio = newValue;
-                  });
-                },
-                
-              ),
-            ],
-          ),
-              
-              ),
-              
             ),
             AccordionWidget.simple(
-              title: "Font Settings", 
+              title: "Font Settings",
               svgPath: 'assets/svg/fonts.svg',
-              theme: AccordionTheme(
-                enableRipple: false,
-              ),
-              context: Padding(padding: EdgeInsets.symmetric(horizontal: 16), 
+              theme: AccordionTheme(enableRipple: false),
+              context: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
                     // Font Preview Container
@@ -152,7 +151,7 @@ class _SettingPageState extends State<SettingPage> {
                                 fontSize: _arabicFontSize,
                                 color: Color(0xff655248),
                                 fontWeight: FontWeight.bold,
-                                fontFamily: "Arabic_Font"
+                                fontFamily: "Arabic_Font",
                               ),
                             ),
                           ),
@@ -169,7 +168,7 @@ class _SettingPageState extends State<SettingPage> {
                         ],
                       ),
                     ),
-                    
+
                     SettingDropdown.simple(
                       label: "Script",
                       value: _setectedScript,
@@ -190,8 +189,7 @@ class _SettingPageState extends State<SettingPage> {
                         });
                       },
                     ),
-                    
-                    
+
                     SettingDropdown.slider(
                       label: "Arabic Font Size",
                       value: _arabicFontSize,
@@ -202,11 +200,9 @@ class _SettingPageState extends State<SettingPage> {
                           _arabicFontSize = value;
                         });
                       },
-                      theme: SettingTheme(
-                        iconColor: Color(0xff895737),
-                      ),
+                      theme: SettingTheme(iconColor: Color(0xff895737)),
                     ),
-                    
+
                     SettingDropdown.slider(
                       label: "Translation Font Size",
                       value: _translationFontSize,
@@ -217,27 +213,26 @@ class _SettingPageState extends State<SettingPage> {
                           _translationFontSize = value;
                         });
                       },
-                      theme: SettingTheme(
-                        iconColor: Color(0xff895737),
-                      ),
+                      theme: SettingTheme(iconColor: Color(0xff895737)),
                     ),
-                    
                   ],
                 ),
               ),
             ),
-          
+
             AccordionWidget.simple(
-              title: "Appearance Settings", 
+              title: "Appearance Settings",
               svgPath: 'assets/svg/element-1.svg',
-              isSwitch: true, 
-              switchValue: appearanceSettingsEnabled, 
+              theme: AccordionTheme(enableRipple: false),
+              isSwitch: true,
+              switchValue: appearanceSettingsEnabled,
               onSwitchChanged: (value) {
                 setState(() {
-                  appearanceSettingsEnabled = value; 
+                  appearanceSettingsEnabled = value;
                 });
               },
-              context: Padding(padding: EdgeInsets.symmetric(horizontal: 16.0), 
+              context: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   children: [
                     // Tajweed Color Switch using SettingRow widget
@@ -248,23 +243,24 @@ class _SettingPageState extends State<SettingPage> {
                         setState(() {
                           _tajweedColorEnabled = value;
                         });
-                        print('তাজবিদ রং সেটিং: ${value ? "চালু" : "বন্ধ"}');
                       },
                       activeColor: Color(0xff895737),
                       inactiveColor: Color(0xffF2EAE0),
                     ),
-                    
+
                     SizedBox(height: 22),
-                    
+
                     // Read Tajweed Rules Section
                     GestureDetector(
                       onTap: () {
-                        print('তাজবিদ নিয়ম পড়ুন: ক্লিক করা হয়েছে');
                         // Navigate to Tajweed Rules page
                       },
                       child: Container(
                         width: double.infinity,
-                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                         decoration: BoxDecoration(
                           color: Color(0xffF2EAE0),
                           borderRadius: BorderRadius.circular(8),
@@ -289,9 +285,9 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ),
                     ),
-                    
+
                     SizedBox(height: 22),
-                    
+
                     // Keep Screen On Switch using SettingRow widget
                     SettingRow.switchRow(
                       title: 'Keep Screen On',
@@ -300,14 +296,13 @@ class _SettingPageState extends State<SettingPage> {
                         setState(() {
                           _keepScreenOnEnabled = value;
                         });
-                        print('স্ক্রিন চালু রাখার সেটিং: ${value ? "চালু" : "বন্ধ"}');
                       },
                       activeColor: Color(0xff895737),
                       inactiveColor: Color(0xffF2EAE0),
                     ),
-                    
+
                     SizedBox(height: 20),
-                    
+
                     // Interface Theme Section
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,12 +316,15 @@ class _SettingPageState extends State<SettingPage> {
                           ),
                         ),
                         SizedBox(height: 12),
-                        
+
                         // Theme Selection Boxes
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            _buildThemeOption('System', Icons.settings_system_daydream),
+                            _buildThemeOption(
+                              'System',
+                              Icons.settings_system_daydream,
+                            ),
                             _buildThemeOption('Light', Icons.light_mode),
                             _buildThemeOption('Dark', Icons.dark_mode),
                             _buildThemeOption('Green', Icons.nature),
@@ -335,222 +333,262 @@ class _SettingPageState extends State<SettingPage> {
                         ),
                       ],
                     ),
-                    
+
                     SizedBox(height: 16),
                   ],
                 ),
               ),
             ),
             AccordionWidget.simple(
-              title: "Word By Word", 
+              title: "Word By Word",
               svgPath: 'assets/svg/board.svg',
-              isSwitch: false, 
-              switchValue: appearanceSettingsEnabled, 
-              
+              isSwitch: false,
+              theme: AccordionTheme(enableRipple: false),
+              switchValue: appearanceSettingsEnabled,
+
               onSwitchChanged: (value) {
                 setState(() {
-                  appearanceSettingsEnabled = value; 
+                  appearanceSettingsEnabled = value;
                 });
               },
             ),
             AccordionWidget.simple(
-              title: "View Settings", 
+              title: "View Settings",
               svgPath: 'assets/svg/view.svg',
-              isSwitch: true, 
+              isSwitch: true,
+              theme: AccordionTheme(enableRipple: false),
               onSwitchChanged: (value) {
                 setState(() {
-                  appearanceSettingsEnabled = value; 
+                  appearanceSettingsEnabled = value;
                 });
               },
-              context: Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: Column(
-                children: [
-                  // Example SettingRow.switchRow usage
-                  SettingRow.switchRow(
-                    title: 'Show Arabic',
-                    
-                    value: _showLineNumbers,
-                    onChanged: (value) {
-                      setState(() {
-                        _showLineNumbers = value;
-                      });
-                      print('লাইন নম্বর দেখানো: ${value ? "চালু" : "বন্ধ"}');
-                    },
-                    activeColor: Color(0xff895737),
-                    inactiveColor: Color(0xffF2EAE0),
-                  ),
-                  
-                  SizedBox(height: 12),
-                  
-                  SettingRow.switchRow(
-                    title: 'Show Translation',
-                    value: _fullScreenMode,
-                    onChanged: (value) {
-                      setState(() {
-                        _fullScreenMode = value;
-                      });
-                      print('ফুল স্ক্রিন মোড: ${value ? "চালু" : "বন্ধ"}');
-                    },
-                    activeColor: Color(0xff895737),
-                    inactiveColor: Color(0xffF2EAE0),
-                  ),
-                  
-                  SizedBox(height: 12),
-                  
-                  SettingRow.switchRow(
-                    title: "Show Other Info", value: _showOtherInfo, 
-                    activeColor: Color(0xff895737),
-                    inactiveColor: Color(0xffF2EAE0),
-                    onChanged: (value){
-                    setState(() {
-                      _showOtherInfo = value;
+              context: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    // Example SettingRow.switchRow usage
+                    SettingRow.switchRow(
+                      title: 'Show Arabic',
 
-                    });
-                    
-                  })
-                ],
-              ),),
-            ),
-             AccordionWidget.simple(
-              title: "Notification Settings", 
-              svgPath: 'assets/svg/notification.svg',
-              context: Padding(padding: EdgeInsets.symmetric(horizontal: 16), 
-              child: Column(children: [
-                SettingRow.switchRow(title: "Daily Notification", value: _dailyNotification, 
-                activeColor: Color(0xff895737),
-                    inactiveColor: Color(0xffF2EAE0),
-                onChanged: (value) {
-                  setState(() {
-                    _dailyNotification = value;
-                  });
-                }),
-                SettingRow.customRow(
-                  title: "Set Time",
-                  customWidget: GestureDetector(
-                    onTap: () async {
-                      final TimeOfDay? picked = await showTimePicker(
-                        context: context,
-                        initialTime: _selectedTime,
-                        initialEntryMode: TimePickerEntryMode.dial,
-                        builder: (context, child) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              colorScheme: ColorScheme.light(
-                                primary: Color(0xff895737),
-                                onSurface: Color(0xff655248),
-                              ),
-                              timePickerTheme: TimePickerThemeData(
-                                dialTextStyle: TextStyle(fontSize: 16),
-                                hourMinuteTextStyle: TextStyle(fontSize: 24),
-                              ),
-                            ),
-                            child: Stack(
-                              children: [
-                                MediaQuery(
-                                  data: MediaQuery.of(context).copyWith(
-                                    alwaysUse24HourFormat: false,
-                                  ),
-                                  child: child!,
-                                ),
-                                // Hide the keyboard icon with a positioned widget
-                                Positioned(
-                                  bottom: 10,
-                                  left: 10,
-                                  child: Container(
-                                    width: 40,
-                                    height: 40,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                      if (picked != null && picked != _selectedTime) {
+                      value: _showLineNumbers,
+                      onChanged: (value) {
                         setState(() {
-                          _selectedTime = picked;
+                          _showLineNumbers = value;
                         });
-                        print('সময় নির্বাচিত: ${_selectedTime.format(context)}');
-                      }
-                    },
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Color(0xffF2EAE0),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: Color(0xffDBC9BB),
-                          width: 1,
-                        ),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            _selectedTime.format(context),
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color(0xff655248),
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          SizedBox(width: 8),
-                          Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Color(0xff895737),
-                            size: 20,
-                          ),
-                        ],
-                      ),
+                      },
+                      activeColor: Color(0xff895737),
+                      inactiveColor: Color(0xffF2EAE0),
                     ),
-                  ),
+
+                    SizedBox(height: 12),
+
+                    SettingRow.switchRow(
+                      title: 'Show Translation',
+                      value: _fullScreenMode,
+                      onChanged: (value) {
+                        setState(() {
+                          _fullScreenMode = value;
+                        });
+                      },
+                      activeColor: Color(0xff895737),
+                      inactiveColor: Color(0xffF2EAE0),
+                    ),
+
+                    SizedBox(height: 12),
+
+                    SettingRow.switchRow(
+                      title: "Show Other Info",
+                      value: _showOtherInfo,
+                      activeColor: Color(0xff895737),
+                      inactiveColor: Color(0xffF2EAE0),
+                      onChanged: (value) {
+                        setState(() {
+                          _showOtherInfo = value;
+                        });
+                      },
+                    ),
+                  ],
                 ),
-              ],),
               ),
             ),
-          
+            AccordionWidget.simple(
+              title: "Notification Settings",
+              svgPath: 'assets/svg/notification.svg',
+              theme: AccordionTheme(enableRipple: false),
+              context: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    SettingRow.switchRow(
+                      title: "Daily Notification",
+                      value: _dailyNotification,
+                      activeColor: Color(0xff895737),
+                      inactiveColor: Color(0xffF2EAE0),
+                      onChanged: (value) {
+                        setState(() {
+                          _dailyNotification = value;
+                        });
+                      },
+                    ),
+                    SettingRow.customRow(
+                      title: "Set Time",
+                      customWidget: GestureDetector(
+                        onTap: () async {
+                          final TimeOfDay? picked = await showTimePicker(
+                            context: context,
+                            initialTime: _selectedTime,
+                            initialEntryMode: TimePickerEntryMode.dial,
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  colorScheme: ColorScheme.light(
+                                    primary: Color(0xff895737),
+                                    onSurface: Color(0xff655248),
+                                  ),
+                                  timePickerTheme: TimePickerThemeData(
+                                    dialTextStyle: TextStyle(fontSize: 16),
+                                    hourMinuteTextStyle: TextStyle(
+                                      fontSize: 24,
+                                    ),
+                                  ),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    MediaQuery(
+                                      data: MediaQuery.of(
+                                        context,
+                                      ).copyWith(alwaysUse24HourFormat: false),
+                                      child: child!,
+                                    ),
+                                    // Hide the keyboard icon with a positioned widget
+                                    Positioned(
+                                      bottom: 10,
+                                      left: 10,
+                                      child: Container(
+                                        width: 40,
+                                        height: 40,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          );
+                          if (picked != null && picked != _selectedTime) {
+                            setState(() {
+                              _selectedTime = picked;
+                            });
+                          }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Color(0xffF2EAE0),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: Color(0xffDBC9BB),
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                _selectedTime.format(context),
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xff655248),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Color(0xff895737),
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
-      )
+      ),
     );
   }
-  
+
   // Theme Selection Widget Builder
   Widget _buildThemeOption(String themeName, IconData icon) {
     bool isSelected = _selectedTheme == themeName;
-    
+
     return GestureDetector(
       onTap: () {
         setState(() {
           _selectedTheme = themeName;
         });
-        print('থিম পরিবর্তন: $themeName');
       },
       child: Column(
         children: [
           Container(
-            width: 50,
-            height: 50,
+            width: 68,
+            height: 95,
             decoration: BoxDecoration(
-              color: isSelected ? Color(0xff895737) : Color(0xffF2EAE0),
+              color: Color(0xffF2EAE0),
               borderRadius: BorderRadius.circular(12),
-              border: isSelected 
-                ? Border.all(color: Color(0xff895737), width: 2)
-                : Border.all(color: Color(0xffDBC9BB), width: 1),
+              border:
+                  isSelected
+                      ? Border.all(color: Color(0xff895737), width: 2)
+                      : Border.all(color: Color(0xffF2EAE0), width: 1),
             ),
-            child: Icon(
-              icon,
-              color: isSelected ? Colors.white : Color(0xff895737),
-              size: 24,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                if (isSelected)
+                  Positioned(
+                    right: 10,
+                    top: 10,
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Color(0xff895737), width: 2),
+                        shape: BoxShape.circle,
+                        color: Colors.transparent,
+                      ),
+                    ),
+                  ),
+                if (isSelected)
+                  Positioned(
+                    right: 15,
+                    top: 15,
+                    child: Container(
+                      width: 14,
+                      height: 14,
+                      decoration: BoxDecoration(
+                        color: Color(0xff895737),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           SizedBox(height: 4),
           Text(
             themeName,
             style: TextStyle(
-              fontSize: 12,
-              color: isSelected ? Color(0xff895737) : Color(0xff999999),
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              fontSize: 13,
+              color: Color(0xff895737),
+              fontWeight: FontWeight.normal,
             ),
           ),
         ],
